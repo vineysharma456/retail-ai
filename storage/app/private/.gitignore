@@ -1,0 +1,49 @@
+# Laravel
+/vendor
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/bootstrap/cache/*
+
+# Environment files
+.env
+.env.backup
+.env.production
+
+# IDE
+/.idea
+/.vscode
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# PHPUnit
+.phpunit.result.cache
+
+# Composer
+composer.phar
+
+# npm
+npm-debug.log
+yarn-error.log
+
+# Laravel Mix / Vite
+/public/build
+
+# API Keys / Secrets
+*.pem
+*.key
+
+# Optional
+Homestead.json
+Homestead.yaml
+
+# Keep gitignore
+!.gitignore
