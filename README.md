@@ -1,58 +1,232 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛍️ Retail AI Assistant
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+An AI-powered retail assistant built using Laravel and OpenAI function calling.
 
-## About Laravel
+This project simulates two intelligent retail agent roles:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 🛒 **Personal Shopper (Revenue Agent)** — recommends products using inventory-aware reasoning
+- 📦 **Customer Support Assistant (Operations Agent)** — evaluates return eligibility using deterministic business rules
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Built using a **tool-calling architecture** to ensure:
+- high accuracy
+- explainable reasoning
+- policy-safe decisions
+- hallucination prevention
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+# 🚀 Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- ✅ AI-powered product recommendations
+- ✅ Deterministic return policy evaluation
+- ✅ OpenAI function calling
+- ✅ Multi-step tool execution
+- ✅ Inventory-aware filtering
+- ✅ Conversation continuity
+- ✅ Hallucination prevention
+- ✅ CLI-based interactive assistant
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+# 🧠 Architecture Overview
 
-## Agentic Development
+```txt
+User Input
+    ↓
+Laravel CLI Command
+    ↓
+OpenAI Orchestration Layer
+    ↓
+Tool Selection (Function Calling)
+    ↓
+Laravel Tool Execution
+    ↓
+Structured Tool Output
+    ↓
+LLM Reasoning + Final Response
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+🔹 Key Design Principles
+The LLM handles:
+reasoning
+explanation
+tool selection
+conversational flow
+Laravel tools handle:
+factual retrieval
+inventory validation
+policy enforcement
+return logic
+The model never directly accesses CSV files
+Tool outputs are treated as the source of truth
+Deterministic business logic minimizes hallucination risk
 
-```bash
-composer require laravel/boost --dev
 
-php artisan boost:install
-```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+📁 Project Structure
 
-## Contributing
+retail-ai-assistant/
+│
+├── app/
+│   ├── Console/
+│   │   └── Commands/
+│   │       └── RetailAIChatCommand.php
+│   │
+│   ├── Services/
+│   │   ├── OpenAIService.php
+│   │   └── CsvService.php
+│   │
+│   └── Tools/
+│       ├── SearchProducts.php
+│       ├── GetProduct.php
+│       ├── GetOrder.php
+│       └── EvaluateReturn.php
+│
+├── storage/
+│   └── app/
+│       └── data/
+│           ├── inventory.csv
+│           ├── orders.csv
+│           └── policies.txt
+│
+├── README.md
+├── ARCHITECTURE.md
+├── composer.json
+├── .env.example
+└── artisan
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+⚙️ Setup Instructions
 
-## Security Vulnerabilities
+1️⃣ Clone Repository
+git clone https://github.com/YOUR_USERNAME/retail-ai.git
+2️⃣ Move Into Project
+cd retail-ai
+3️⃣ Install Dependencies
+composer install
+4️⃣ Create Environment File
+cp .env.example .env
+5️⃣ Generate Laravel App Key
+php artisan key:generate
+6️⃣ Add OpenAI API Key
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Inside .env:
 
-## License
+OPENAI_API_KEY=your_openai_api_key_here
+▶ Running The AI Assistant
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Start the CLI assistant:
+
+php artisan ai:chat
+💬 Example Usage
+🛍️ Shopping Scenarios
+I need a modest evening dress under $300 in size 8.
+Recommend a sparkle cocktail dress in size 6.
+I want a bridal gown on sale in size 10.
+📦 Support Scenarios
+Can I return order O0092?
+What if I want an exchange instead?
+Recommend similar dresses in the same size.
+🚫 Edge Cases
+Can I return order INVALID999?
+🛠️ Tools
+Tool	Description
+search_products(filters)	Searches and ranks products
+get_product(product_id)	Retrieves product details
+get_order(order_id)	Retrieves order information
+evaluate_return(order_id)	Applies deterministic return policy logic
+🔄 Multi-Step Tool Execution
+
+The AI agent dynamically selects tools using OpenAI function calling.
+
+Example support flow:
+
+get_order(order_id)
+        ↓
+evaluate_return(order_id)
+        ↓
+Generate policy-safe response
+
+Example shopping flow:
+
+search_products(filters)
+        ↓
+Rank matching products
+        ↓
+Generate recommendation reasoning
+🛡️ Hallucination Prevention
+
+This system minimizes hallucinations using:
+
+deterministic Laravel tools
+OpenAI function calling
+structured tool-first workflows
+backend policy enforcement
+strict refusal handling
+exact inventory validation
+
+The AI never invents:
+
+stock
+products
+prices
+orders
+policies
+return decisions
+
+All factual information comes from tools only.
+
+🛍️ Personal Shopper Logic
+
+The recommendation engine considers:
+
+price filtering
+size validation
+stock availability
+tag matching
+sale prioritization
+bestseller ranking
+
+Fallback strategy:
+
+Relax strict tag filters
+Relax sale preference
+Return closest matching products
+📦 Return Policy Logic
+
+Deterministic business rules:
+
+Product Type	Policy
+Regular Items	14-day refund window
+Sale Items	7-day store credit only
+Clearance Items	Final sale / no returns
+Aurelia Couture	Exchange only
+Nocturne	21-day return window
+
+Policy precedence is enforced programmatically.
+
+💡 Why Tool-Based Architecture?
+
+This architecture provides:
+
+✔ Higher accuracy
+✔ Lower hallucination risk
+✔ Explainable reasoning
+✔ Deterministic policy enforcement
+✔ Better scalability
+✔ Clean separation of concerns
+
+🧰 Technologies Used
+Laravel
+PHP
+OpenAI API
+OpenAI Function Calling
+CSV-based retrieval
+CLI interaction
+📝 Notes
+No external store integrations were used
+The project is fully local and simulation-based
+The focus is on agent orchestration and business-safe reasoning
+👨‍💻 Author
+
+Developed as part of a Retail AI Assistant take-home assignment.
