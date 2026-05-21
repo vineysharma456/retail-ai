@@ -245,11 +245,15 @@ class OpenAIService
 
             CLEARANCE ITEMS:
             - final sale
-            - no returns
+            - no returns 
 
             VENDOR EXCEPTIONS:
             - Aurelia → exchange only
             - Nocturne → 21-day return window
+            
+            EXCHANGE RULES
+            - Size exchanges allowed if stock available
+            - Customer pays return shipping unless defective
 
             If multiple rules apply:
             - explain which rule overrides others
@@ -391,97 +395,7 @@ class OpenAIService
 
             $iteration = 0;
 
-            // while ($iteration < $maxIterations) {
-
-            //     $iteration++;
-
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | OpenAI Request
-            //     |--------------------------------------------------------------------------
-            //     */
-            //     $response = $this->client->chat()->create([
-
-            //         'model' => 'gpt-4.1-mini',
-
-            //         'messages' => $this->messages,
-
-            //         'tools' => $this->getTools(),
-            //     ]);
-
-            //     $message = $response->choices[0]->message;
-
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | Store Assistant Response
-            //     |--------------------------------------------------------------------------
-            //     */
-            //     $this->messages[] = [
-
-            //         'role' => 'assistant',
-
-            //         'content' => $message->content ?? '',
-
-            //         'tool_calls' => $message->toolCalls ?? []
-            //     ];
-
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | Final AI Response (No More Tool Calls)
-            //     |--------------------------------------------------------------------------
-            //     */
-            //     if (empty($message->toolCalls)) {
-
-            //         return $message->content
-            //             ?? 'No response generated.';
-            //     }
-
-            //     /*
-            //     |--------------------------------------------------------------------------
-            //     | Execute Tool Calls
-            //     |--------------------------------------------------------------------------
-            //     */
-            //     foreach ($message->toolCalls as $toolCall) {
-
-            //         $toolName = $toolCall->function->name;
-
-            //         $arguments = json_decode(
-            //             $toolCall->function->arguments,
-            //             true
-            //         );
-
-            //         logger()->info('Tool Called', [
-
-            //             'tool' => $toolName,
-
-            //             'arguments' => $arguments
-            //         ]);
-
-            //         /*
-            //         |--------------------------------------------------------------------------
-            //         | Execute Tool
-            //         |--------------------------------------------------------------------------
-            //         */
-            //         $toolResult = $this->executeTool(
-            //             $toolName,
-            //             $arguments
-            //         );
-
-            //         /*
-            //         |--------------------------------------------------------------------------
-            //         | Store Tool Result In Memory
-            //         |--------------------------------------------------------------------------
-            //         */
-            //         $this->messages[] = [
-
-            //             'role' => 'tool',
-
-            //             'tool_call_id' => $toolCall->id,
-
-            //             'content' => json_encode($toolResult)
-            //         ];
-            //     }
-            // }
+            
             while (true) {
 
     $response = $this->client->chat()->create([
@@ -563,15 +477,21 @@ class OpenAIService
             true
         );
 
-        logger()->info('Tool Called', [
-            'tool' => $toolName,
-            'arguments' => $arguments
-        ]);
+        echo "\n";
+        echo "=============================\n";
+        echo " TOOL CALLED: {$toolName}\n";
+        echo "=============================\n";
 
+        echo "Arguments:\n";
+        echo json_encode($arguments, JSON_PRETTY_PRINT);
+        echo "\n\n";
         $toolResult = $this->executeTool(
             $toolName,
             $arguments
         );
+        echo "Tool Result:\n";
+        echo json_encode($toolResult, JSON_PRETTY_PRINT);
+        echo "\n\n";
 
         /*
         |--------------------------------------------------------------------------
