@@ -99,7 +99,7 @@ retail-ai-assistant/
 ⚙️ Setup Instructions
 
 1️⃣ Clone Repository
-git clone https://github.com/YOUR_USERNAME/retail-ai.git
+git clone https://github.com/vineysharma456/retail-ai.git
 2️⃣ Move Into Project
 cd retail-ai
 3️⃣ Install Dependencies
@@ -223,6 +223,16 @@ OpenAI API
 OpenAI Function Calling
 CSV-based retrieval
 CLI interaction
+
+## Requirements
+
+- PHP 8.2+
+- Composer
+- Laravel 12
+- OpenAI API Key
+
+php artisan ai:chat
+
 📝 Notes
 No external store integrations were used
 The project is fully local and simulation-based
